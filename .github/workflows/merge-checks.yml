@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: GitLeaks
         run: |
-          git config --global --add safe.directory /__w/innago-email-to-property-owner/innago-email-to-property-owner
+          git config --global --add safe.directory /__w/black-hole/black-hole
           gitleaks detect --verbose
     
       
