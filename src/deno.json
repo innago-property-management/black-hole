@@ -4,8 +4,6 @@
     "test": "deno test --allow-env --allow-net"
   },
   "imports": {
-    "@std/assert": "jsr:@std/assert@1",
-    "@std/expect": "jsr:@std/expect@^1.0.13",
-    "@types/mocha": "npm:@types/mocha@^10.0.10"
+    "@std/expect": "jsr:@std/expect@^1.0.13"
   }
 }

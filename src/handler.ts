@@ -11,7 +11,7 @@ const response = new Response(null, { status: 204 });
  *   Promise<Response>: A promise that resolves to a 204 No Content response.
  */
 const handler = (_req: Request): Promise<Response> => {
-    return Promise.resolve(response); // 204 No Content
+  return Promise.resolve(response); // 204 No Content
 };
 
-export {handler};
+export { handler };
