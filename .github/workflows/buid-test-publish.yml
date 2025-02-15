@@ -18,27 +18,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Deno Lint
-        uses: denoland/deno-lint@v1
+        
+      - uses: denoland/setup-deno@v2
         with:
-          fail-on-warnings: true
-
-      - name: Check for outdated dependencies (using `udd`)
-        uses: actions/setup-node@v3 # Node is required for `udd`
-        with:
-          node-version: 23.7.0
-      - run: npm install -g udd
-      - run: udd --check
-
-      - name: Check for vulnerabilities (using `npm audit` on `jsr` dependencies)
-        if: ${{ matrix.package-manager == 'npm' }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: 23.7.0
-        cache: 'npm'
-      - run: npm ci
-      - run: npm audit
+          deno-version: v2.x
+      - run: deno lint
+      - run: deno run -A https://deno.land/x/udd/main.ts src/deno.json
 
   build-and-test:
     name: Build and Test
@@ -57,7 +42,7 @@ jobs:
           deno-version: ${{ matrix.deno-version }}
 
       - name: Run tests
-        run: deno test --allow-read --allow-net --allow-env
+        run: deno test src/ --allow-read --allow-net --allow-env
 
   package-and-publish:
     name: Package and Publish
@@ -66,7 +51,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
-      id-token: write # To sign with Cosign
+      id-token: write
 
     steps:
       - name: Checkout code

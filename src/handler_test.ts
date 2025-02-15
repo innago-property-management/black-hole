@@ -1,4 +1,4 @@
-import { expect } from "jsr:@std/expect";
+import { expect } from "./deps.ts";
 import { handler } from "./handler.ts";
 
 Deno.test("should return a 204 No Content response", async () => {
@@ -39,7 +39,7 @@ Deno.test("should return a 204 No Content response for different request urls", 
 });
 
 Deno.test("should return a 204 No Content response for different request headers", async () => {
-  const headers : HeadersInit[]  = [
+  const headers: HeadersInit[] = [
     { "Content-Type": "application/json" },
     { "Accept": "application/json" },
     { "Authorization": "Bearer token" },
@@ -47,7 +47,9 @@ Deno.test("should return a 204 No Content response for different request headers
   ];
 
   for (const header of headers) {
-    const req = new Request("https://example.com/", { headers: new Headers(header) });
+    const req = new Request("https://example.com/", {
+      headers: new Headers(header),
+    });
 
     const res = await handler(req);
 
