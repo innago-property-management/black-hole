@@ -6,6 +6,7 @@ jobs:
   security:
     name: Security Checks
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

@@ -6,6 +6,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    permissions: {}
     strategy:
       matrix:
         deno-version: ['2.x']
