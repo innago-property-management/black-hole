@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
 
-      - uses: denoland/setup-deno@v2
+      - uses: denoland/setup-deno@27e0043effb637fb8409496e05bd8472e4b87554 # v2
         with:
           deno-version: v2.x
       - run: deno lint
@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
       - name: semgrep-action
-        uses: semgrep/semgrep-action@v1
+        uses: semgrep/semgrep-action@713efdd345f3035192eaa63f56867b88e63e4e5d #v1
 
   secrets:
     runs-on: ubuntu-latest
