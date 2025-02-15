@@ -1,0 +1,16 @@
+name: auto-pr
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: pull-request
+        uses: diillson/auto-pull-request@v1.0.1
+        with:
+          destination_branch: 'main'
+          github_token: ${{ secrets.SEMVER_TOKEN }}

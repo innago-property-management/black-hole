@@ -1,0 +1,57 @@
+name: semver
+on:
+  workflow_call:
+    outputs:
+      version:
+        description: "Version"
+        value: ${{ jobs.version.outputs.version }}
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get_latest_tag.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get Latest Tag
+        id: get_latest_tag
+        run: |
+          git fetch
+          latest_tag=$(git tag -l --sort=v:refname | tail -n 1)
+          latest_tag=${latest_tag:-0.0.1}
+          echo "current version is: $latest_tag"
+          echo "LATEST_VERSION=$latest_version" >> $GITHUB_ENV
+          MAJOR=$(echo "$latest_tag" | cut -d. -f1 | sed 's/[^0-9]//g')
+          MINOR=$(echo "$latest_tag" | cut -d. -f2)
+          PATCH=$(echo "$latest_tag" | cut -d. -f3)
+          PATCH=$((PATCH + 1))
+          NEW_TAG="${MAJOR}.${MINOR}.${PATCH}"
+          NEXT_VERSION=$(cat NEXT_VERSION || echo "0.0.0")
+          if [[ $(echo -e "$NEW_TAG\n$NEXT_VERSION" | sort -V | head -n1) == "$NEXT_VERSION" ]]; then
+            echo "NEXT_VERSION ($NEXT_VERSION) is less than NEW_TAG ($NEW_TAG)"
+          else
+            echo "NEXT_VERSION ($NEXT_VERSION) is greater than NEW_TAG ($NEW_TAG)"
+            NEW_TAG="$NEXT_VERSION"
+          fi
+          echo "Next tag: $NEW_TAG"
+          TAG=$(git describe --exact-match --tags || echo "")
+          echo "TAG=$TAG"
+          if [ -z "$TAG" ]; then
+            BRANCH=$(git branch --show-current)
+            if [ "$BRANCH" == "main" ]; then
+              echo "rc"
+              export VERSION="$NEW_TAG-rc-${{ github.run_number }}"
+              export ASSEMBLY_VERSION="$NEW_TAG.${{ github.run_number }}"
+            else
+              echo "feat"
+              export VERSION="$NEW_TAG-feat-${{ github.run_number }}"
+              export ASSEMBLY_VERSION="$NEW_TAG.${{ github.run_number }}"
+            fi
+          else
+            echo "tagged"
+            export VERSION="$TAG"
+            export ASSEMBLY_VERSION="$TAG"
+          fi
+          
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION"
