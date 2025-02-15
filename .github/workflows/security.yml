@@ -1,0 +1,35 @@
+name: security.yml
+on:
+  workflow_call:
+
+jobs:
+  security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - run: deno lint
+      - run: deno run -A https://deno.land/x/udd/main.ts src/deno.json
+  
+  sast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: semgrep-action
+        uses: semgrep/semgrep-action@v1
+
+  secrets:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/gitleaks/gitleaks:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: GitLeaks
+        run: |
+          git config --global --add safe.directory /__w/black-hole/black-hole
+          gitleaks detect --verbose
