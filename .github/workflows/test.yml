@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Deno ${{ matrix.deno-version }}
-        uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@27e0043effb637fb8409496e05bd8472e4b87554
         with:
           deno-version: ${{ matrix.deno-version }}
 
