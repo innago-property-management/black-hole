@@ -27,7 +27,7 @@ jobs:
       - name: Check for outdated dependencies (using `udd`)
         uses: actions/setup-node@v3 # Node is required for `udd`
         with:
-          node-version: 23.7.0
+          node-version: &nodeVersion lts/Hydrogen
       - run: npm install -g udd
       - run: udd --check
 
@@ -35,7 +35,7 @@ jobs:
         if: ${{ matrix.package-manager == 'npm' }}
         uses: actions/setup-node@v3
         with:
-          node-version: 23.7.0
+          node-version: *nodeVersion
           cache: 'npm'
       - run: npm ci
       - run: npm audit
