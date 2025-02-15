@@ -12,11 +12,15 @@ name: Default CI Pipeline
 
 jobs:    
   version:
-    uses: ./.github/workflows/semver.yml    
+    uses: ./.github/workflows/semver.yml 
+    permissions:      
+      content: read
   security:
-    uses: ./.github/workflows/security.yml        
+    uses: ./.github/workflows/security.yml
+    permissions: {}
   test:
     uses: ./.github/workflows/test.yml
+    permissions: {}
   package-and-publish:
     uses: ./.github/workflows/package-and-publish.yml
     secrets: inherit
