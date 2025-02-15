@@ -19,6 +19,8 @@ jobs:
   
   sast:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
       - name: semgrep-action
@@ -26,6 +28,8 @@ jobs:
 
   secrets:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     container:
       image: ghcr.io/gitleaks/gitleaks:latest
     steps:
