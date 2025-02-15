@@ -19,11 +19,11 @@ jobs:
 
   package-and-publish:
     uses: ./.github/workflows/package-and-publish.yml
-#    permissions:
-#      contents: read
-#      packages: write
-#      attestations: write
-#      id-token: write
+    permissions:
+      contents: read
+      packages: write
+      attestations: write
+      id-token: write
     needs:
       - test
       - version
