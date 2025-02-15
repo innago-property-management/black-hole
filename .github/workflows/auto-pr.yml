@@ -1,8 +1,6 @@
 name: auto-pr
 on:
-  push:
-    branches:
-      - "**"
+  workflow_call:
 
 jobs:
   pull_request:

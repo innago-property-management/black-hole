@@ -9,6 +9,9 @@ on:
       - main
 
 jobs:  
+  auto-pr:
+    uses: ./.github/workflows/auto-pr.yml
+    
   version:
     uses: ./.github/workflows/semver.yml
     
@@ -25,10 +28,9 @@ jobs:
       - run: deno lint
       - run: deno run -A https://deno.land/x/udd/main.ts src/deno.json
 
-  build-and-test:
-    name: Build and Test
+  test:
+    name: Test
     runs-on: ubuntu-latest
-    needs: security
     strategy:
       matrix:
         deno-version: ['2.x']
@@ -48,8 +50,10 @@ jobs:
     name: Package and Publish
     runs-on: ubuntu-latest
     needs: 
-      - build-and-test
+      - test
       - version
+      - security
+      - auto-pr
 #    if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
@@ -66,6 +70,10 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Publish container image
         uses: docker/build-push-action@v3
         env:
