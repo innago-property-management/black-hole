@@ -5,12 +5,6 @@ on:
       version:
         required: true
         type: string      
-      cosignKey:        
-        required: true
-        type: string
-      cosignPassword:
-        required: true
-        type: string
       imageName:
         required: true
         type: string
@@ -70,7 +64,7 @@ jobs:
             ghcr.io/innago-property-management/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
         shell: bash
         env:
-          COSIGN_KEY: ${{ inputs.cosignKey }}
-          COSIGN_PASSWORD: ${{ inputs.cosignPassword }}
+          COSIGN_KEY: ${{secrets.COSIGN_KEY}}
+          COSIGN_PASSWORD: ${{secrets.COSIGN_PASSWORD}}
           VERSION: ${{ inputs.version }}
           IMAGE_NAME: ${{ inputs.imageName }}

@@ -16,6 +16,7 @@ jobs:
     uses: ./.github/workflows/test.yml
   package-and-publish:
     uses: ./.github/workflows/package-and-publish.yml
+    secrets: inherit
     permissions:
       contents: read
       packages: write
@@ -27,6 +28,4 @@ jobs:
       - security
     with:
       version: ${{ needs.version.outputs.version }}
-      cosignPassword: ${{secrets.COSIGN_PASSWORD}}
       imageName: black-hole
-      cosignKey: ${{secrets.COSIGN_KEY}}
