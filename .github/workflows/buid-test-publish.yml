@@ -11,8 +11,6 @@ on:
 jobs:  
   auto-pr:
     uses: ./.github/workflows/auto-pr.yml
-    env:
-      GITHUB_TOKEN: ${{ secrets.SEMVER_TOKEN }}
       
     
   version:
