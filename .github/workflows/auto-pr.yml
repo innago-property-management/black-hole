@@ -1,6 +1,10 @@
 name: auto-pr
 on:
-  workflow_call:
+  push:
+    branches:
+      - "**"
+    branches_ignore:
+      - main
 
 jobs:
   pull_request:
@@ -8,9 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: pull-request
-        uses: diillson/auto-pull-request@v1.0.1        
-        env:
-          GITHUB_TOKEN: ${{ secrets.SEMVER_TOKEN }}
+        uses: diillson/auto-pull-request@v1.0.1
         with:
           destination_branch: 'main'
           github_token: ${{ secrets.SEMVER_TOKEN }}
