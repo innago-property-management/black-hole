@@ -9,10 +9,12 @@ on:
 jobs:
   pull_request:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
       - name: pull-request
-        uses: diillson/auto-pull-request@v1.0.1
+        uses: diillson/auto-pull-request@4cf50b3681cd76250f37841466e61e514a377064 # v1.0.1
         with:
           destination_branch: 'main'
           github_token: ${{ secrets.SEMVER_TOKEN }}
