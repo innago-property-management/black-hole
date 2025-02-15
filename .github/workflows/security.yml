@@ -6,9 +6,10 @@ jobs:
   security:
     name: Security Checks
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
 
       - uses: denoland/setup-deno@v2
         with:
@@ -19,7 +20,7 @@ jobs:
   sast:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
       - name: semgrep-action
         uses: semgrep/semgrep-action@v1
 
@@ -28,7 +29,7 @@ jobs:
     container:
       image: ghcr.io/gitleaks/gitleaks:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
       - name: GitLeaks
         run: |
           git config --global --add safe.directory /__w/black-hole/black-hole

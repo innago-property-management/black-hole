@@ -1,0 +1,23 @@
+name: test.yml
+on:
+  workflow_call:
+    
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    permissions: {}
+    strategy:
+      matrix:
+        deno-version: ['2.x']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # 4.2.2
+
+      - name: Setup Deno ${{ matrix.deno-version }}
+        uses: denoland/setup-deno@27e0043effb637fb8409496e05bd8472e4b87554
+        with:
+          deno-version: ${{ matrix.deno-version }}
+
+      - name: Run tests
+        run: deno test src/ --allow-read --allow-net --allow-env
